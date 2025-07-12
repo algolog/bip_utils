@@ -142,7 +142,7 @@ class Bip32PeikertEd25519KeyDerivator(Bip32KholawEd25519KeyDerivatorBase):
     def trunc_256_minus_g_bits(
         zl: bytes,
         g: int = Bip32PeikertEd25519.DERIVATION_TYPE_G_BITS
-    ):
+    ) -> bytes:
         truncated = bytearray(zl)
         remaining_bits = g
 
