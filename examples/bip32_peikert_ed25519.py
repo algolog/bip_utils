@@ -23,6 +23,13 @@
 # Imports
 from typing import Type, Tuple
 from bip_utils import Bip32KholawEd25519
+from nacl.bindings import (
+    crypto_core_ed25519_scalar_add,
+    crypto_core_ed25519_scalar_mul,
+    crypto_core_ed25519_scalar_reduce,
+    crypto_hash_sha512,
+    crypto_scalarmult_ed25519_base_noclamp,
+)
 
 # Imports from bip32_peikert_ed25519_key_derivator
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
@@ -66,6 +73,44 @@ class Bip32PeikertEd25519(Bip32KholawEd25519):
     @staticmethod
     def _MasterKeyGenerator():
         return Bip32PeikertEd25519MstKeyGenerator
+
+    @staticmethod
+    def raw_sign(
+        private_key: Ed25519KholawPrivateKey,
+        data: bytes,
+    ) -> bytes:
+        """
+        Raw Signing function for BIP32-ed25519 HD wallets
+        Edwards-Curve Digital Signature Algorithm (EdDSA)
+        Ref: https://datatracker.ietf.org/doc/html/rfc8032#section-5.1.6
+
+        Args:
+            private_key (Ed25519KholawPrivateKey object): Ed25519KholawPrivateKey object
+            data (bytes): Data to be signed in raw bytes
+
+        Returns:
+            bytes: Signature holding R + S, totally 64 bytes
+        """
+        raw_key = private_key.Raw()
+        scalar = raw_key[:Ed25519PrivateKey.Length()]  # private_key.m_sign_key
+        kR = raw_key[Ed25519PrivateKey.Length():]      # private_key.m_ext_key
+
+        # \(1): pubKey = scalar * G (base point, no clamp)
+        publicKey = crypto_scalarmult_ed25519_base_noclamp(scalar)
+
+        # \(2): h = hash(c || msg) mod q
+        r = crypto_core_ed25519_scalar_reduce(crypto_hash_sha512(kR + data))
+
+        # \(4):  R = r * G (base point, no clamp)
+        R = crypto_scalarmult_ed25519_base_noclamp(r)
+
+        # h = hash(R || pubKey || msg) mod q
+        h = crypto_core_ed25519_scalar_reduce(crypto_hash_sha512(R + publicKey + data))
+
+        # \(5): S = (r + h * k) mod q
+        S = crypto_core_ed25519_scalar_add(r, crypto_core_ed25519_scalar_mul(h, scalar))
+
+        return R + S
 
 
 class Bip32PeikertEd25519MstKeyGenerator(IBip32MstKeyGenerator):
