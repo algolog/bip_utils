@@ -356,6 +356,16 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Digibyte main net
+    DigibyteMainNet: CoinConf = CoinConf(
+        coin_name=CoinNames("Digibyte", "DGB"),
+        params={
+            "p2pkh_net_ver": b"\x1e",
+            "p2sh_net_ver": b"\x16",
+            "wif_net_ver": b"\x9e",
+        },
+    )
+
     # Configuration for Dogecoin main net
     DogecoinMainNet: CoinConf = CoinConf(
         coin_name=CoinNames("Dogecoin", "DOGE"),
@@ -580,6 +590,12 @@ class CoinsConf:
             "p2wpkh_wit_ver": _BTC_P2WPKH_WIT_VER_TN,
             "wif_net_ver": _BTC_WIF_NET_VER_TN,
         },
+    )
+
+    # Configuration for Mavryk
+    Mavryk: CoinConf = CoinConf(
+        coin_name=CoinNames("Mavryk", "MVRK"),
+        params={},
     )
 
     # Configuration for Metis

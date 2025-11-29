@@ -39,6 +39,7 @@ Supported coins enumerative for BIP-0044:
 |Chihuahua|`Bip44Coins.CHIHUAHUA`|-|
 |Cosmos|`Bip44Coins.COSMOS`|-|
 |Dash|`Bip44Coins.DASH`|`Bip44Coins.DASH_TESTNET`|
+|Digibyte|`Bip44Coins.DIGIBYTE`|-|
 |Dogecoin|`Bip44Coins.DOGECOIN`|`Bip44Coins.DOGECOIN_TESTNET`|
 |dYdX|`Bip44Coins.DYDX`|-|
 |eCash|`Bip44Coins.ECASH`|`Bip44Coins.ECASH_TESTNET`|
@@ -61,6 +62,7 @@ Supported coins enumerative for BIP-0044:
 |Kava|`Bip44Coins.KAVA`|-|
 |Kusama (ed25519 SLIP-0010)|`Bip44Coins.KUSAMA_ED25519_SLIP`|-|
 |Litecoin|`Bip44Coins.LITECOIN`|`Bip44Coins.LITECOIN_TESTNET`|
+|Mavryk|`Bip44Coins.MAVRYK`|-|
 |Metis|`Bip44Coins.METIS`|-|
 |Monero (ed25519 SLIP-0010, please see the Monero paragraph below)|`Bip44Coins.MONERO_ED25519_SLIP`|-|
 |Monero (secp256k1, please see the Monero paragraph below)|`Bip44Coins.MONERO_SECP256K1`|-|

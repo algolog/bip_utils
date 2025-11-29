@@ -78,6 +78,7 @@ Supported BIP coins:
 - Certik
 - Cosmos
 - Dash (and related test net)
+- Digibyte
 - Dogecoin (and related test net)
 - dYdX
 - eCash (and related test net)
@@ -95,6 +96,7 @@ Supported BIP coins:
 - Kava
 - Kusama (based on BIP44 and ed25519 SLIP-0010, like TrustWallet, it won't generate the same addresses of Polkadot-JS)
 - Litecoin (and related test net)
+- Mavryk
 - Metis
 - Monero (based on BIP44 and secp256k1 or ed25519 SLIP-0010, it won't generate the same addresses of the official wallets, but it supports subaddresses generation)
 - Nano
@@ -146,31 +148,19 @@ Clearly, for those coins that support Smart Contracts (e.g. Ethereum, Tron, ...)
 
 ## Install the package
 
-For the secp256k1 curve, it's possible to use either the *coincurve* or the *ecdsa* library. *coincurve* is much faster since it's a Python wrapper to the secp256k1 C library, while *ecdsa* is a pure Python implementation.\
-By default *coincurve* will be used, but it's possible to disable it when installing.
+The package can be simply installed via *pip*:
 
-To install the package:
-- Default installation (*coincurve* will be used for secp256k1)
-    - Using *pip*, from this directory (local):
+    pip install bip_utils
 
-            pip install .
+**NOTE:** if you have problems building the *ed25519_blake2b* library (it usually happens on Windows), you can try one of the prebuilt wheels [here](https://github.com/ebellocchia/bip_utils/tree/master/libs_wheels).
 
-    - Using *pip*, from PyPI:
+### Alternative secp256k1 library
 
-            pip install bip_utils
+For *secp256k1* curve, the package uses *coincurve* by default (much faster). However, it also supports *ecdsa*, which is a pure Python implementation (i.e. slower).
 
-- Alternative installation (*ecdsa* will be used for secp256k1)
-    - Using *setuptools*:
+To use *ecdsa* for *secp256k1*, edit the file *bip_utils/ecc/conf.py* and set `USE_COINCURVE` to `False`. Then install with *pip*:
 
-            python setup.py install --coincurve=0
-
-    - Edit the file *bip_utils/ecc/conf.py* by setting `USE_COINCURVE` to `False`, then install with *pip*:
-
-            pip install .
-
-**NOTES:**
-- if you are using an Apple M1, please make sure to update *coincurve* to version 17.0.0
-- in case of problems when building the *ed25519_blake2b* library, you can try one of the prebuilt wheels [here](https://github.com/ebellocchia/bip_utils/tree/master/libs_wheels)
+    pip install .
 
 ## Test and Coverage
 
@@ -185,9 +175,14 @@ To run tests:
 To run tests with coverage:
 
     coverage run -m unittest discover
-    coverage report
+    coverage report -m
 
-To run code analysis, just execute the `analyze_code` script.
+To run code analysis:
+
+    mypy .
+    ruff check .
+
+`tox` can also be used for testing and code analysis (check `tox.ini` for the environments).
 
 ## Modules description
 
@@ -216,8 +211,8 @@ For some complete code examples (from mnemonic to keys generation), refer to the
 # Buy me a coffee
 
 You know, I'm italian and I love drinking coffee (especially while coding 😃). So, if you'd like to buy me one:
-- BTC: `bc1qq4r9cglwzd6f2hzxvdkucmdejvr9h8me5hy0k8`
-- ERC20/BEP20: `0xf84e4898E5E10bf1fBe9ffA3EEC845e82e364b5B`
+- BTC: `bc1qqxwmzs7qyatpht84hqmavkag0r3gnalyjxqr9d`
+- EVM: `0xbe6Ce1d8fc6e72173f00A63FF493dFdFdb664FbF`
 
 Thank you very much for your support.
 

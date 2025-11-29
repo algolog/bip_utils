@@ -1,5 +1,8 @@
-include keywords.txt
-include requirements.txt
-include requirements-dev.txt
-include readme/*
-include readme/utility/*
+include pyproject_legacy.toml
+recursive-include examples *.py
+recursive-include readme *.md
+recursive-include tests *.py
+global-exclude .gitignore
+prune benchmark
+prune docs
+prune my_tests

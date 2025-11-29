@@ -5,8 +5,22 @@ name: Test Minimum Requirements
 on:
   push:
     branches: [ "master" ]
+    paths-ignore:
+      - README.md
+      - 'benchmark/**'
+      - 'docs/**'
+      - 'examples/**'
+      - 'libs_wheels/**'
+      - 'readme/**'
   pull_request:
     branches: [ "master" ]
+    paths-ignore:
+      - README.md
+      - 'benchmark/**'
+      - 'docs/**'
+      - 'examples/**'
+      - 'libs_wheels/**'
+      - 'readme/**'
 
 jobs:
   test_min_reqs_py37:
@@ -36,7 +50,7 @@ jobs:
         pip install pycryptodome==3.15
         pip install pynacl==1.5
         pip install py-sr25519-bindings==0.1.3
-        pip install typing_extensions==3.7.2
+        pip install typing_extensions>=3.7.2
     - name: Run tests
       run: |
         pytest
@@ -162,6 +176,37 @@ jobs:
         pip install pycryptodome==3.15
         pip install pynacl==1.5
         pip install py-sr25519-bindings==0.2.0
+    - name: Run tests
+      run: |
+        pytest
+
+  test_min_reqs_py313:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.13"
+    - name: Install minimum dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements-dev.txt
+        pip install cbor2==5.1.2
+        pip install coincurve==21.0.0
+        pip install crcmod==1.7
+        pip install ecdsa==0.17
+        pip install ed25519-blake2b==1.4.1
+        pip install pycryptodome==3.15
+        pip install pynacl==1.5
+        pip install py-sr25519-bindings==0.2.2
     - name: Run tests
       run: |
         pytest
